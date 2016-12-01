@@ -1,37 +1,62 @@
-var x = [];
+// var a = [];
 var img;
-var c = 0;
-
+var num = 6000;
+var range = 18;
+var ax = [];
+var ay = [];
+// var x = 0;
+//
 function preload(){
   img = loadImage("particle.png");
 }
 
-function setup(){
-  createCanvas(640,480);
-  // println(x);
-  //
-  // for(var i =0; i<1000; i++){
-  //   x[i] = random(0,width);
-  // }
-  // frameRate(20);
+// function setup(){
+//   createCanvas(1000,600);
+//   // frameRate(100);
+// }
+
+// function draw(){
+//     image(img,random(-width, width), random(-height, height));
+//     background(255,random(255),random(255),10);
+//
+// }
+
+
+
+
+function setup() {
+  createCanvas(1000, 600);
+  for ( var i = 0; i < num; i++ ) {
+    ax[i] = width / 2;
+    ay[i] = height / 2;
+  }
+  frameRate(100);
 }
 
-function draw(){
+function draw() {
+  // background(51);
 
-  // background(0);
-  // translate(-175,-400);
-rotate();
-  // for(var i = 0; i<x.length; i++){
-    // x[i]++;//random(-5,5);
-    // var y = random(i);
-    // stroke(random(255),random(255),random(255));
-    // fill(random(255),random(255),random(255));
-    // ellipse(mouseX*random(x[i]),mouseY*random(x[i]),10);
-    // line(mouseX*random(x[i]),mouseY*random(x[i]),mouseX*random(x[i]),mouseY*random(x[i]));
-    // image(img,x[i],x[i],random(1000),random(1000));
-    image(img,random(-width, width), random(-height, height));
-    background(255,random(255),random(255),10);
-    // c=c++;
-  // }
+  image(img,random(-width, width), random(-height, height));
+  background(255,random(255),random(255),10);
 
+  // Shift all elements 1 place to the left
+  for ( var i = 1; i < num; i++ ) {
+    ax[i - 1] = ax[i];
+    ay[i - 1] = ay[i];
+  }
+
+  // Put a new value at the end of the array
+  ax[num - 1] += random(-range, range);
+  ay[num - 1] += random(-range, range);
+
+  // Constrain all points to the screen
+  ax[num - 1] = constrain(ax[num - 1], 0, width);
+  ay[num - 1] = constrain(ay[num - 1], 0, height);
+
+  // Draw a line connecting the points
+  for ( var j = 1; j < num; j++ ) {
+    stroke(255,random(255),random(255));
+    noFill();
+    line(ax[j - 1], ay[j - 1], ax[j], ay[j]);
+  }
 }
